@@ -1,12 +1,12 @@
+import time
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
-import os
 
 
-def fetch_dynamic_content():
+def fetch_dynamic_content(pinterest_url):
     # 设置Chrome浏览器的选项，确保浏览器不会显示自动化工具控制的提示信息
     options = webdriver.ChromeOptions()
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -34,8 +34,7 @@ def fetch_dynamic_content():
     time.sleep(30)
 
     # 登录完成后，访问目标Pinterest页面
-    driver.get(
-        "https://www.pinterest.jp/search/pins/?q=playing%20smart%20phone%20realistic&rs=typed")
+    driver.get(pinterest_url)
 
     # 定位Pinterest页面中用于展示图片的动态元素的CSS选择器
     element_selector = "div.vbI.XiG"
@@ -93,13 +92,15 @@ def fetch_dynamic_content():
 
 
 if __name__ == '__main__':
+    pinterest_url = "https://www.pinterest.jp/search/pins/?q=playing%20smart%20phone%20realistic&rs=typed"
     # 调用函数，获取页面滚动过程中收集的所有HTML内容
-    content_list = fetch_dynamic_content()
+    content_list = fetch_dynamic_content(pinterest_url)
 
     cwd = os.getcwd()
+    runs_folder = os.path.join(cwd, 'runs')
+
     file_name = 'collected_content.txt'
-    file_path = os.path.join(cwd, file_name)
-    print(file_path)
+    file_path = os.path.join(runs_folder, file_name)
 
     # 将收集的HTML内容保存到txt文件中
     with open(file_path, 'w', encoding='utf-8') as file:
