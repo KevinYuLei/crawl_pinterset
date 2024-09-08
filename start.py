@@ -23,7 +23,7 @@ if __name__ == '__main__':
     html_content_list = fetch_dynamic_content(pinterest_url)
     
     html_content_filename = 'html_content.txt'
-    html_content_path = os.path.join(runs_folder, html_content_filename)
+    html_content_path = os.path.join(runs_exp_folder, html_content_filename)
     
     # 将收集的HTML内容保存到txt文件中
     with open(html_content_path, 'w', encoding='utf-8') as file:
