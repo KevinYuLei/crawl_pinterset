@@ -1,6 +1,25 @@
 import os
 import requests
 
+
+# 自定义请求头
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36',
+    'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Referer': 'https://www.google.com/',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive',
+    'DNT': '1',
+}
+
+# 代理配置（根据需要替换为实际代理地址和端口）
+proxies = {
+    'http': 'http://127.0.0.1:7890',
+    'https': 'http://127.0.0.1:7890'
+}
+
+
 def download_images_from_urls(file_path, save_directory):
     # 创建保存图片的目录（如果不存在）
     os.makedirs(save_directory, exist_ok=True)
@@ -15,7 +34,8 @@ def download_images_from_urls(file_path, save_directory):
         if url:  # 确保URL不为空
             try:
                 # 发送GET请求获取图片
-                response = requests.get(url, stream=True)
+                response = requests.get(
+                    url, stream=True, headers=headers, proxies=proxies)
                 response.raise_for_status()  # 检查请求是否成功
 
                 # 根据索引命名文件
@@ -31,6 +51,7 @@ def download_images_from_urls(file_path, save_directory):
 
             except requests.exceptions.RequestException as e:
                 print(f"Failed to download {url}: {e}")
+
 
 if __name__ == '__main__':
     # URL文件路径
